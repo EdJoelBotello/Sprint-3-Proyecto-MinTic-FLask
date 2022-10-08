@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+<h4>Gestionar Administradores</h4>
+<section>
+    <div class="add-button">
+      <div class="d-flex justify-content-evenly">
+        <form class="d-flex ">
+          <input class="form-control m-2" type="search" aria-label="Search" placeholder="Nombre">
+          <button class="btn btn-outline-success m-2" type="submit">Buscar</button>
+        </form>
+      </div>
+      <div>
+        <a href="/agregarAdministrador">
+          <button type="button" class="btn btn-success" style="margin:10px ;"><i class="fa-solid fa-plus"></i> Agregar
+            Administrador</button>
+        </a>
+      </div>
+    </div>
+    <table id="empleados" class="table table-primary table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Cedula</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Apellido</th>
+          <th scope="col">Direccion</th>
+          <th scope="col">Email</th>
+          <th scope="col">Telefono</th>
+          <th scope="col">Fecha Nacimiento</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in admins %}
+          <tr>          
+            <th scope="row">{% print(item[0])%}</th>
+            <td>{% print(item[1])%}</td>
+            <td>{% print(item[2])%}</td>
+            <td>{% print(item[3])%}</td>
+            <td>{% print(item[4])%}</td>
+            <td>{% print(item[5])%}</td>
+            <td>{% print(item[6])%}</td>
+            <td>{% print(item[7])%}</td>
+            <td>
+              <a href="/gestionarAdministradores/infoAdministrador/{{item[0]}}">
+              <button type="button" class="btn btn-info">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+              </a>
+              <a href="/gestionarAdministradores/editar/{{item[0]}}">
+              <button type="button" class="btn btn-warning"><i class="fa-sharp   fa-solid fa-pencil"></i>
+              </button>
+              </a>
+              <a href="/gestionarAdministradores/eliminar/{{item[0]}}">
+              <button type="button" class="btn btn-danger"><i class="fa-sharp     fa-solid fa-trash"></i>
+              </button>
+              </a>
+            </td>
+          </tr>
+        {% endfor %}
+        
+
+      </tbody>
+    </table>
+
+  </section>
+{% endblock content %}

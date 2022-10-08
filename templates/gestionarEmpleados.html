@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block content %}
+<h4>Gestionar Empleados</h4>
+  <section>
+    <div class="add-button">
+      <div class="d-flex justify-content-evenly">
+        <form class="d-flex ">
+          <input class="form-control m-2" type="search" aria-label="Search" placeholder="Nombre">
+          <button class="btn btn-outline-success m-2" type="submit">Buscar</button>
+        </form>
+      </div>
+      <div>
+        <a href="/agregarEmpleado">
+          <button type="button" class="btn btn-success" style="margin:10px ;"><i class="fa-solid fa-plus"></i> Agregar
+            Empleado</button>
+        </a>
+      </div>
+    </div>
+
+    <table id="empleados" class="table table-primary table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Cedula</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Apellido</th>
+          <th scope="col">Telefono</th>
+          <th scope="col">Email</th>
+          <th scope="col">Cargo</th>
+          <th scope="col">Dependencia</th>
+          <th scope="col">Tipo Contrato</th>
+          <th scope="col">Fecha Ingreso</th>
+          <th scope="col">Fecha Term Contrato</th>
+          <th scope="col">Salario</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in empleados %}
+        <tr>
+          <th scope="row">{% print(item[0])%}</th>
+          <td>{% print(item[1])%}</td>
+          <td>{% print(item[2])%}</td>
+          <td>{% print(item[3])%}</td>
+          <td>{% print(item[4])%}</td>
+          <td>{% print(item[5])%}</td>
+          <td>{% print(item[6])%}</td>
+          <td>{% print(item[7])%}</td>
+          <td>{% print(item[8])%}</td>
+          <td>{% print(item[9])%}</td>
+          <td>{% print(item[10])%}</td>
+          <td>${% print(item[11])%}</td>
+          <td>
+            <a href="/informacionEmpleado/{{item[0]}}">
+              <button type="button" class="btn btn-info">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </a>
+            <a href="/calificarEmpleado">
+              <button type="button" class="btn btn-primary">
+                <i class="fa-solid fa-comment"></i>
+              </button>
+            </a>
+            <a href="/gestionarEmpleados/editar/{{item[0]}}">
+            <button type="button" class="btn btn-warning"><i class="fa-sharp   fa-solid fa-pencil"></i>
+            </button>
+            </a>
+            <a href="/gestionarEmpleados/eliminar/{{item[0]}}">
+            <button type="button" class="btn btn-danger"><i
+                class="fa-sharp     fa-solid fa-trash"></i>
+            </button>
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Confirmar</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            ¿Esta seguro de Eliminar el registro?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" onclick="alert('Registro eliminado')" class="btn btn-primary">Confirmar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock content %}

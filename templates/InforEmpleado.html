@@ -1,0 +1,104 @@
+{% extends "base.html" %} {% block content %}
+<h4>Informacion Empleado</h4>
+
+<section>
+  <h5>Datos Basicos</h5>
+
+  <form class="form1" action="" style="width: 90%; margin: auto">
+    <div class="mb-3">
+      <label for="cedula" class="form-label">Cedula</label>
+      <input type="text"  value="{{empleado[1]}}" class="form-control" id="cedula" aria-describedby="emailHelp" readonly/>
+      <div class="mb-3">
+        <label for="nombre" class="form-label">Nombre</label>
+        <input type="text"  value="{{empleado[2]}}" class="form-control" id="nombre" readonly />
+      </div>
+      <div class="mb-3">
+        <label for="apellido" class="form-label">Apellido</label>
+        <input type="text"  value="{{empleado[3]}}" class="form-control" id="apellido" readonly />
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email"  value="{{empleado[5]}}" class="form-control" id="email" readonly />
+      </div>
+      <div class="mb-3">
+        <label for="fechanaci" class="form-label">Fecha de nacimiento</label>
+        <input type="date"  value="{{empleado[12]}}" class="form-control" id="naci" readonly />
+      </div>
+      <div class="mb-3">
+        <label for="direccion" class="form-label">Direccion</label>
+        <input type="text"  value="{{empleado[13]}}" class="form-control" id="direcion" readonly />
+      </div>
+      <div class="mb-3">
+        <label for="telefono" class="form-label">Telefono</label>
+        <input type="number"  value="{{empleado[4]}}" class="form-control" id="telefono" readonly />
+      </div>
+      <div class="mb-3">
+        <label for="sexo" class="form-label">Sexo</label>
+        <input type="text"  value="{{empleado[14]}}" class="form-control" id="sexo" readonly />
+      </div>
+      <div class="mb-3">
+        <label for="estadocivil" class="form-label">Estado Civil</label>
+        <input type="text" class="form-control" value="{{empleado[15]}}" id="estadocivil" readonly />
+      </div>
+      <div class="mb-3">
+        <label for="fechaingre" class="form-label">Fecha de ingreso</label>
+        <input type="date" class="form-control"  value="{{empleado[9]}}" id="fechaingre" readonly />
+      </div>
+      <div class="mb-3">
+        <label for="tipocontrato" class="form-label">Tipo de Contrato</label>
+        <input type="text" class="form-control"  value="{{empleado[8]}}" id="tipocontrato" readonly />
+      </div>
+      <div class="mb-3">
+        <label for="fechaterm" class="form-label"
+          >Fecha de terminacion del contrato</label
+        >
+        <input type="date"  value="{{empleado[10]}}" class="form-control" id="fechaterm" readonly />
+      </div>
+      <div class="mb-3">
+        <label for="cargo" class="form-label">Cargo</label>
+        <input type="text"  value="{{empleado[6]}}" class="form-control" id="cargo" readonly />
+      </div>
+      <div class="mb-3">
+        <label for="dependencia" class="form-label">Dependencia</label>
+        <input type="text"  value="{{empleado[7]}}" class="form-control" id="dependencia" readonly />
+      </div>
+      <div class="mb-3">
+        <label for="salario" class="form-label">Salario</label>
+        <input type="number"  value="{{empleado[11]}}" class="form-control" id="salario" readonly />
+      </div>
+    </div>
+  </form>
+</section>
+
+<section>
+  <h5>Desempeño/Calificacion</h5>
+  <table id="empleados" class="table table-primary table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Fecha Calificacion</th>
+        <th scope="col">Puntaje</th>
+        <th scope="col">Retroalimentacion</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>02/02/2022</td>
+        <td>4</td>
+        <td>Buen trabajo</td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>02/02/2022</td>
+        <td>4</td>
+        <td>Buen trabajo</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="mb-3">
+    <a href={% if role=='empleado' %}{{ url_for('inicio') }}{% else %} {{ url_for('gestionarEmpleados') }} {% endif %}>
+      <button type="button" class="btn btn-danger">Regresar</button></a>  
+  </div>
+</section>
+{% endblock content %}

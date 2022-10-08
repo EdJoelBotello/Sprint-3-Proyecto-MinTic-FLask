@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+    <h4>Calificar Empleado</h4>
+
+    <section>
+        <form class="form1" action="" style="width: 90%; margin: auto;">
+            <div class="mb-3">
+                <label for="cedula" class="form-label">Cedula</label>
+                <input type="text" class="form-control" id="cedula" aria-describedby="emailHelp" readonly>
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="apellido" class="form-label">Apellido</label>
+                    <input type="text" class="form-control" id="apellido" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="cargo" class="form-label">Cargo</label>
+                    <input type="text" class="form-control" id="cargo" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="dependencia" class="form-label">Dependencia</label>
+                    <input type="text" class="form-control" id="dependencia" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="fechacal" class="form-label">Fecha Calificacion</label>
+                    <input type="date" class="form-control" id="fechacal" name="fechacal" readonly>
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+                    <script>
+                        $(document).ready(function () {
+
+                            var now = new Date();
+
+                            var day = ("0" + now.getDate()).slice(-2);
+                            var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+                            var today = now.getFullYear() + "-" + (month) + "-" + (day);
+                            $("#fechacal").val(today);
+                        });
+                    </script>
+                </div>
+                <div class="mb-3">
+                    <label for="calificacion" class="form-label">Calificacion</label>
+                    <input type="number" class="form-control" id="calificacion" min="0" max="5">
+                </div>
+                <div class="mb-3">
+                    <label for="retroalimentacion" class="form-label">Retroalimentacion</label>
+                    <textarea class="form-control" name="retroalimentacion" id="retroalimentacion" rows="3"></textarea>
+                </div>
+
+                <a href="/gestionarEmpleados">
+                    <button type="button" class="btn btn-danger">Cancelar</button>
+                </a>
+                <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal">Guardar</button>
+            </div>
+        </form>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        ¿Esta seguro de realizar el registro?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" onclick="registrarUsuario()" class="btn btn-primary">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

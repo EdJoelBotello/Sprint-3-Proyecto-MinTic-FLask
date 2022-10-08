@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+<h4>Agregar Administrador</h4>
+
+    <section>
+        <form class="form1" method="post" action="{{url_for('agregarAdministrador')}}" style="width: 90%; margin: auto;">
+            <div class="mb-3">
+                <label for="cedula" class="form-label">Cedula</label>
+                <input type="text" name="cedula" class="form-control" id="cedula" aria-describedby="emailHelp">
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" name="nombre" class="form-control" id="nombre">
+                </div>
+                <div class="mb-3">
+                    <label for="apellido" class="form-label">Apellido</label>
+                    <input type="text" name="apellido" class="form-control" id="apellido">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" name="email" class="form-control" id="email">
+                </div>
+                <div class="mb-3">
+                    <label for="naci" class="form-label">Fecha de nacimiento</label>
+                    <input type="date" name="naci" class="form-control" id="naci">
+                </div>
+                <div class="mb-3">
+                    <label for="direccion" class="form-label">Direccion</label>
+                    <input type="text" name="direccion" class="form-control" id="direcion">
+                </div>
+                <div class="mb-3">
+                    <label for="telefono" class="form-label">Telefono</label>
+                    <input type="number" name="telefono" class="form-control" id="telefono">
+                </div>
+                <div class="mb-3">
+                    <label for="sexo" class="form-label">Sexo: </label>
+                    <input type="radio" name="sexo" value="H" id="hombre">Hombre
+                    <input type="radio" name="sexo" value="M" id="mujer">Mujer
+                </div>
+                <div class="mb-3">
+                    <label for="estadocivil" class="form-label">Estado Civil: </label>
+                    <input type="radio" name="estadocivil" value="Casado" id="Casado">Casado
+                    <input type="radio" name="estadocivil" value="Soltero" id="Soltero">Soltero
+                    <input type="radio" name="estadocivil" value="Union Libre" id="Union Libre">Union Libre
+                    <input type="radio" name="estadocivil" value="Viudo" id="Viudo">Viudo
+                    <input type="radio" name="estadocivil" value="Divorciado" id="divo">Divorciado
+                </div>
+                
+                <a href={{ url_for('gestionarAdministradores') }}>
+                    <button type="button" class="btn btn-danger">Cancelar</button>
+                </a>
+                <input type="submit" class="btn btn-success" value="Registrar">
+            </div>
+        </form>
+
+    </section>
+{% endblock content %}

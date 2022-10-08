@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<h4>Informacion Administrador</h4>
+
+    <section>
+        <form class="form1" method="post" action="" style="width: 90%; margin: auto;">
+            <div class="mb-3">
+                <label for="cedula" class="form-label">Cedula</label>
+                <input type="text" name="cedula" value="{{admin[1]}}" class="form-control" id="cedula" aria-describedby="emailHelp" readonly>
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" name="nombre" value="{{admin[2]}}" class="form-control" id="nombre" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="apellido" class="form-label">Apellido</label>
+                    <input type="text" name="apellido"value="{{admin[3]}}" class="form-control" id="apellido" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" name="email" value="{{admin[5]}}" class="form-control" id="email" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="naci" class="form-label">Fecha de nacimiento</label>
+                    <input type="date" name="naci" value="{{admin[7]}}" class="form-control" id="naci" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="direccion" class="form-label">Direccion</label>
+                    <input type="text" name="direccion" value="{{admin[4]}}" class="form-control" id="direcion" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="telefono" class="form-label">Telefono</label>
+                    <input type="number" name="telefono" value="{{admin[6]}}" class="form-control" id="telefono" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="sexo" class="form-label">Sexo: </label>
+                    <input type="text" name="sexo" value="{{admin[8]}}" class="form-control" id="sexo" readonly readonly>
+
+                </div>
+                <div class="mb-3">
+                    <label for="estadocivil" class="form-label">Estado Civil: </label>
+                    <input type="text" name="estadocivil" value="{{admin[9]}}" class="form-control" id="sexo" readonly readonly>
+                </div>
+                
+                <a href={{ url_for('gestionarAdministradores') }}>
+                    <button type="button" class="btn btn-danger">Regresar</button>
+                </a>
+                
+            </div>
+        </form>
+
+    </section>
+{% endblock content %}
