@@ -1,5 +1,3 @@
-from operator import index
-from optparse import Values
 import os
 import string
 from flask import Flask, jsonify, render_template, flash, request, redirect, session, url_for
@@ -151,11 +149,21 @@ def agregarEmpleado():
             if not utils.isEmailValid(email):
                 error = 'Correo no valido'
                 flash(error)
-                return render_template('agregarEmplaedo.html', role=session.get('role'))
+                return render_template('agregarEmpleado.html', role=session.get('role'))
 
             db = get_db()
 
             error = None
+            if db.execute( 'SELECT * FROM empleados WHERE email = ?', (email,) ).fetchone() is not None:
+                error = 'El correo ya existe'.format( email )
+                flash( error )
+                return render_template('agregarEmpleado.html', role=session.get('role'))
+            
+            if db.execute( 'SELECT * FROM empleados WHERE cedula = ?', (cedula,) ).fetchone() is not None:
+                error = 'La cedula ya existe'.format( cedula )
+                flash( error )
+                return render_template('agregarEmpleado.html', role=session.get('role'))
+            
             cur = db.execute(
                 'insert into users (email, password, rol) values (?,?,?)', [
                     email, cedula, 'empleado']
@@ -202,8 +210,19 @@ def agregarAdministrador():
                 return render_template('agregarAdministrador.html', role=session.get('role'))
 
             db = get_db()
-
+            
             error = None
+            if db.execute( 'SELECT * FROM administradores WHERE email = ?', (email,) ).fetchone() is not None:
+                error = 'El correo ya existe'.format( email )
+                flash( error )
+                return render_template('agregarAdministrador.html', role=session.get('role'))
+            
+            if db.execute( 'SELECT * FROM administradores WHERE cedula = ?', (cedula,) ).fetchone() is not None:
+                error = 'La cedula ya existe'.format( cedula )
+                flash( error )
+                return render_template('agregarAdministrador.html', role=session.get('role'))
+            
+            
             cur = db.execute(
                 'insert into users (email, password, rol) values (?,?,?)', [
                     email, cedula, 'admin']
@@ -242,18 +261,12 @@ def informacionEmpleado(id):
         error = None
         empleado = db.execute(
             'SELECT * FROM empleados where id= (?)', [id]).fetchone()
-
+        calificaciones=db.execute(
+            'SELECT * FROM calificaciones where id_emp= (?)', [id]).fetchall()
         close_db()
         db.close()
-        print(empleado)
-        # fecha_nac=datetime.datetime.strptime(empleado[12], "%d/%m/%Y").strftime("%Y-%m-%d")
-        # fecha_ingr=datetime.datetime.strptime(empleado[9], "%d/%m/%Y").strftime("%Y-%m-%d")
-        # fecha_term=datetime.datetime.strptime(empleado[10], "%d/%m/%Y").strftime("%Y-%m-%d")
+        return render_template('inforEmpleado.html', role=session.get('role'), empleado=empleado,calificaciones=calificaciones)
 
-        # ,fecha_nac=fecha_nac,fecha_ingre=fecha_ingr,fecha_term=fecha_term)
-        return render_template('inforEmpleado.html', role=session.get('role'), empleado=empleado)
-
-        # elif request.method == 'POST':
 
     except Exception as e:
         print(e)
@@ -267,8 +280,45 @@ def informacionEmpleado(id):
         return render_template('inforEmpleado.html', role='superadmin')
 
 
-@app.route('/calificarEmpleado')
-def calificarEmpleado():
+@app.route('/gestionarEmpleados/calificar/<id>', methods=['GET','POST'])
+def calificarEmpleado(id):
+    try:
+        if request.method == "POST":
+            retroalimentacion = request.form['retroalimentacion']
+            fecha_calificacion = request.form['fechacal']
+            calificacion = request.form['calificacion']
+            print(fecha_calificacion,retroalimentacion,calificacion)
+            error = None
+
+            
+            db = get_db()
+            mydb = db.cursor()
+            
+            mydb.execute('INSERT INTO calificaciones (id_emp, fecha_calificacion, retroalimentacion,calificacion) values (?,?,?,?)', 
+                         [id,fecha_calificacion,retroalimentacion,calificacion])
+            db.commit()
+            db.close()
+
+            mensaje= 'Empleado calificado correctamente'
+            return render_template('exito.html', role=session.get('role'),mensaje=mensaje)
+        
+        else:
+            db = get_db()
+            error = None
+            empleado = db.execute(
+                'SELECT cedula,nombres,apellido,cargo,dependencia FROM empleados where id= (?)', [id]).fetchone()
+
+            close_db()
+            db.close()
+            print(empleado)
+            
+            return render_template('calificarEmpleado.html', role=session.get('role'), empleado=empleado)
+
+
+    except Exception as e:
+        print(e)
+        return render_template('404.html', role=session.get('role'))
+
     if session.get('role') == 'admin':
         return render_template('calificarEmpleado.html', role='admin')
     else:
@@ -282,6 +332,11 @@ def eliminar_empleado(id):
     try:
         db = get_db()
         error = None
+        if db.execute( 'SELECT * FROM empleados WHERE id = ?', (id,) ).fetchone() is None:
+                error = 'El usuario no existe'
+                flash( error )
+                return redirect(url_for( 'gestionarEmpleados'))
+            
         user=db.execute('SELECT id_user FROM empleados WHERE id = (?)', [id]).fetchone()
         user=user[0]
         print(user)
@@ -302,6 +357,11 @@ def eliminar_administrador(id):
     try:
         db = get_db()
         error = None
+        if db.execute( 'SELECT * FROM administradores WHERE id = ?', (id,) ).fetchone() is None:
+                error = 'El administrador no existe'
+                flash( error )
+                return redirect(url_for('gestionarAdministradores'))
+        
         ad=db.execute('SELECT id_user FROM administradores WHERE id = (?)', [id]).fetchone()
         ad=ad[0]
         db.execute('DELETE FROM administradores WHERE id = (?)', [id])
@@ -319,8 +379,7 @@ def eliminar_administrador(id):
 @app.route('/gestionarEmpleados/editar/<id>', methods=('GET', 'POST'))
 def editarEmpleado(id):
     # import datetime
-    print(request.method)
-    print(request.args)
+    
     try:
         if request.method == "POST":
             nombre = request.form['nombre']
@@ -366,11 +425,15 @@ def editarEmpleado(id):
 
             close_db()
             db.close()
+            if empleado is None:
+                error = 'El empleado no existe'
+                flash( error )
+                return redirect(url_for('gestionarEmpleados'))
             print(empleado)
+            
             
             return render_template('editarEmpleado.html', role=session.get('role'), empleado=empleado)
 
-        # elif request.method == 'POST':
 
     except Exception as e:
         print(e)
@@ -396,7 +459,7 @@ def editarAdministrador(id):
             if not utils.isEmailValid(email):
                 error = 'Correo no valido'
                 flash(error)
-                return render_template('gestionarEmpleados.html', role=session.get('role'))
+                return render_template('gestionarAdministradores.html', role=session.get('role'))
 
             print(id)
             db = get_db()
@@ -417,12 +480,11 @@ def editarAdministrador(id):
 
             close_db()
             db.close()
+            if admin is None:
+                error = 'El administrador no existe'
+                flash( error )
+                return redirect(url_for('gestionarAdministradores'))
             print(admin)
-            # fecha_nac=datetime.datetime.strptime(empleado[12], "%d/%m/%Y").strftime("%Y-%m-%d")
-            # fecha_ingr=datetime.datetime.strptime(empleado[9], "%d/%m/%Y").strftime("%Y-%m-%d")
-            # fecha_term=datetime.datetime.strptime(empleado[10], "%d/%m/%Y").strftime("%Y-%m-%d")
-
-            # ,fecha_nac=fecha_nac,fecha_ingre=fecha_ingr,fecha_term=fecha_term)
             return render_template('editarAdministrador.html', role=session.get('role'), admin=admin)
 
         # elif request.method == 'POST':
@@ -456,3 +518,9 @@ def infoAdministrador(id):
     except Exception as e:
         print(e)
         return render_template('404.html', role=session.get('role'))
+    
+@app.route('/')    
+def logout():
+    [session.pop(key) for key in list(session.keys())]
+    session.clear()
+    return redirect(url_for('login'))

@@ -82,18 +82,16 @@
       </tr>
     </thead>
     <tbody>
+      {% for i in range(calificaciones|length) %}
       <tr>
-        <th scope="row">1</th>
-        <td>02/02/2022</td>
-        <td>4</td>
-        <td>Buen trabajo</td>
+        <th scope="row">{{i+1}}</th>
+        <td>{{calificaciones[i][1]}}</td>
+        <td>{{calificaciones[i][3]}}</td>
+        <td>{{calificaciones[i][2]}}</td>
       </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>02/02/2022</td>
-        <td>4</td>
-        <td>Buen trabajo</td>
-      </tr>
+      {% endfor %}
+      
+        
     </tbody>
   </table>
   <div class="mb-3">

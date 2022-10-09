@@ -5,25 +5,25 @@
     <h4>Calificar Empleado</h4>
 
     <section>
-        <form class="form1" action="" style="width: 90%; margin: auto;">
+        <form class="form1" method="POST" action="" style="width: 90%; margin: auto;">
             <div class="mb-3">
                 <label for="cedula" class="form-label">Cedula</label>
-                <input type="text" class="form-control" id="cedula" aria-describedby="emailHelp" readonly>
+                <input type="text" class="form-control" id="cedula" value="{{empleado[0]}}" aria-describedby="emailHelp" readonly>
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" id="nombre" readonly>
+                    <input type="text" class="form-control" value="{{empleado[1]}}" id="nombre" readonly>
                 </div>
                 <div class="mb-3">
                     <label for="apellido" class="form-label">Apellido</label>
-                    <input type="text" class="form-control" id="apellido" readonly>
+                    <input type="text" class="form-control" value="{{empleado[2]}}" id="apellido" readonly>
                 </div>
                 <div class="mb-3">
                     <label for="cargo" class="form-label">Cargo</label>
-                    <input type="text" class="form-control" id="cargo" readonly>
+                    <input type="text" class="form-control" value="{{empleado[3]}}" id="cargo" readonly>
                 </div>
                 <div class="mb-3">
                     <label for="dependencia" class="form-label">Dependencia</label>
-                    <input type="text" class="form-control" id="dependencia" readonly>
+                    <input type="text" class="form-control" value="{{empleado[4]}}" id="dependencia" readonly>
                 </div>
                 <div class="mb-3">
                     <label for="fechacal" class="form-label">Fecha Calificacion</label>
@@ -45,7 +45,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="calificacion" class="form-label">Calificacion</label>
-                    <input type="number" class="form-control" id="calificacion" min="0" max="5">
+                    <input type="number" class="form-control"  name="calificacion" id="calificacion" min="0" max="5">
                 </div>
                 <div class="mb-3">
                     <label for="retroalimentacion" class="form-label">Retroalimentacion</label>
@@ -55,8 +55,7 @@
                 <a href="/gestionarEmpleados">
                     <button type="button" class="btn btn-danger">Cancelar</button>
                 </a>
-                <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                    data-bs-target="#exampleModal">Guardar</button>
+                <input type="submit" class="btn btn-success" value="Calificar">
             </div>
         </form>
 
